@@ -65,7 +65,11 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>配置参考;<a href="http://www.freebuf.com/articles/database/100423.html" target="_blank" rel="external">http://www.freebuf.com/articles/database/100423.html</a><br>现在说两个注意点<br>1.如果搭配Mysql<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource name=&quot;sgk&quot; type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot; url=&quot;jdbc:mysql://127.0.0.1:3306/newsgk&quot; user=&quot;root&quot; password=&quot;password&quot; batchSize=&quot;-1&quot; /&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure><br>batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入<br>2.如果搭配MSSQL<br>请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入</p>
+        <p>配置参考;<a href="http://www.freebuf.com/articles/database/100423.html" target="_blank" rel="external">http://www.freebuf.com/articles/database/100423.html</a><br>现在说两个注意点</p>
+<p>1.如果搭配Mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource name=&quot;sgk&quot; type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot; url=&quot;jdbc:mysql://127.0.0.1:3306/newsgk&quot; user=&quot;root&quot; password=&quot;password&quot; batchSize=&quot;-1&quot; /&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
+<p>batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入</p>
+<p>2.如果搭配MSSQL<br>请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入</p>
 
       
     </div>
@@ -83,6 +87,7 @@
     <div id="footer-info" class="inner">
       &copy; 2016 John Doe&nbsp;
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+	  Wrote by FallenAngel
     </div>
   </div>
 </footer>
