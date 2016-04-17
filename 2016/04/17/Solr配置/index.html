@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Solr配置 - Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="配置参考;http://www.freebuf.com/articles/database/100423.html现在说两个注意点1.如果搭配Mysql
+
+batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入2.如果搭配MSSQL请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solr配置">
+<meta property="og:url" content="http://yoursite.com/2016/04/17/Solr配置/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="配置参考;http://www.freebuf.com/articles/database/100423.html现在说两个注意点1.如果搭配Mysql
+
+batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入2.如果搭配MSSQL请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入">
+<meta property="og:updated_time" content="2016-04-17T14:22:53.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Solr配置">
+<meta name="twitter:description" content="配置参考;http://www.freebuf.com/articles/database/100423.html现在说两个注意点1.如果搭配Mysql
+
+batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入2.如果搭配MSSQL请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入">
+  
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-Solr配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Solr配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/04/17/Solr配置/" class="article-date">
+  <time datetime="2016-04-17T09:47:09.000Z" itemprop="datePublished">2016-04-17</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>配置参考;<a href="http://www.freebuf.com/articles/database/100423.html" target="_blank" rel="external">http://www.freebuf.com/articles/database/100423.html</a><br>现在说两个注意点<br>1.如果搭配Mysql</p>
+<p><dataconfig></dataconfig></p>
+<p><datasource name="sgk" type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/newsgk" user="root" password="password" batchsize="-1"><br><br>batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入<br>2.如果搭配MSSQL<br>请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入</datasource></p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/28/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
