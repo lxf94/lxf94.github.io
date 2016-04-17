@@ -5,22 +5,22 @@
   
   <title>Solr配置 - Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="配置参考;http://www.freebuf.com/articles/database/100423.html现在说两个注意点
-1.如果搭配Mysql
-123&amp;lt;dataConfig&amp;gt;&amp;lt;dataSource name=&amp;quot;sgk&amp;quot; type=&amp;quot;JdbcDataSource&amp;quot; driver=&amp;quot;com.mysql.jdbc.Drive">
+  <meta name="description" content="配置参考:http://www.freebuf.com/articles/database/100423.html
+现在说两个注意点
+1.如果搭配Mysql打开db-data-config.xml，会看到一段类似的代码123&amp;lt;dataConfig&amp;gt;&amp;lt;dataSource name=&amp;quot;sgk&amp;quot; type=&amp;quot;JdbcDataSource&amp;quot; dr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Solr配置">
 <meta property="og:url" content="http://yoursite.com/2016/04/17/Solr配置/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="配置参考;http://www.freebuf.com/articles/database/100423.html现在说两个注意点
-1.如果搭配Mysql
-123&amp;lt;dataConfig&amp;gt;&amp;lt;dataSource name=&amp;quot;sgk&amp;quot; type=&amp;quot;JdbcDataSource&amp;quot; driver=&amp;quot;com.mysql.jdbc.Drive">
-<meta property="og:updated_time" content="2016-04-17T15:15:23.774Z">
+<meta property="og:description" content="配置参考:http://www.freebuf.com/articles/database/100423.html
+现在说两个注意点
+1.如果搭配Mysql打开db-data-config.xml，会看到一段类似的代码123&amp;lt;dataConfig&amp;gt;&amp;lt;dataSource name=&amp;quot;sgk&amp;quot; type=&amp;quot;JdbcDataSource&amp;quot; dr">
+<meta property="og:updated_time" content="2016-04-17T16:25:10.847Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Solr配置">
-<meta name="twitter:description" content="配置参考;http://www.freebuf.com/articles/database/100423.html现在说两个注意点
-1.如果搭配Mysql
-123&amp;lt;dataConfig&amp;gt;&amp;lt;dataSource name=&amp;quot;sgk&amp;quot; type=&amp;quot;JdbcDataSource&amp;quot; driver=&amp;quot;com.mysql.jdbc.Drive">
+<meta name="twitter:description" content="配置参考:http://www.freebuf.com/articles/database/100423.html
+现在说两个注意点
+1.如果搭配Mysql打开db-data-config.xml，会看到一段类似的代码123&amp;lt;dataConfig&amp;gt;&amp;lt;dataSource name=&amp;quot;sgk&amp;quot; type=&amp;quot;JdbcDataSource&amp;quot; dr">
   
   
   <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
@@ -71,11 +71,11 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>配置参考;<a href="http://www.freebuf.com/articles/database/100423.html" target="_blank" rel="external">http://www.freebuf.com/articles/database/100423.html</a><br>现在说两个注意点</p>
-<p>1.如果搭配Mysql</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource name=&quot;sgk&quot; type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot; url=&quot;jdbc:mysql://127.0.0.1:3306/newsgk&quot; user=&quot;root&quot; password=&quot;password&quot; batchSize=&quot;-1&quot; /&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure>
-<p>batchSize设置为-1(是否可以设置其他值没有尝试)，否则一直无法导入</p>
-<p>2.如果搭配MSSQL<br>请不要设置batchSize(是否可以设置其他值没有尝试,-1是不可以行的) 否则一直无法导入</p>
+        <p>配置参考:<a href="http://www.freebuf.com/articles/database/100423.html" target="_blank" rel="external">http://www.freebuf.com/articles/database/100423.html</a></p>
+<p>现在说两个注意点</p>
+<p>1.如果搭配<font color="red"><strong>Mysql</strong></font><br>打开db-data-config.xml，会看到一段类似的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;dataConfig&gt;</span><br><span class="line">&lt;dataSource name=&quot;sgk&quot; type=&quot;JdbcDataSource&quot; driver=&quot;com.mysql.jdbc.Driver&quot; url=&quot;jdbc:mysql://127.0.0.1:3306/newsgk&quot; user=&quot;root&quot; password=&quot;password&quot; batchSize=&quot;-1&quot; /&gt;</span><br><span class="line">&lt;/dataConfig&gt;</span><br></pre></td></tr></table></figure></p>
+<p><font color="red"><strong>batchSize设置为-1</strong></font>(是否可以设置其他值没有尝试)，否则一直无法导入</p>
+<p>2.如果搭配<font color="red"><strong>MSSQL</strong></font><br>请<font color="red"><strong>不要设置batchSize</strong></font>(是否可以设置其他值没有尝试,-1是不可行的),否则无法导入</p>
 
       
     </div>
