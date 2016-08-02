@@ -42,6 +42,43 @@
   </div>
 </header>
     <section id="main" class="outer">
+      <article id="post-阿里云API签名机制实现-Python" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/02/阿里云API签名机制实现-Python/">阿里云API签名机制实现-Python</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/08/02/阿里云API签名机制实现-Python/" class="article-date">
+  <time datetime="2016-08-02T11:39:14.000Z" itemprop="datePublished">2016-08-02</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用阿里云的云解析API作为例子,python版本为3.5(有些函数用法和python2不一样)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import requests,json,urllib.parse,datetime,hashlib,random,hmac,base64,time</span><br><span class="line">AliKey=&quot;testid&quot;</span><br><span class="line">AliSecret=&quot;testsecret&quot;</span><br><span class="line"></span><br><span class="line">def Url(a):</span><br><span class="line">    b=&quot;&quot;</span><br><span class="line">    for i in range(0,len(a)):</span><br><span class="line">        try:</span><br><span class="line">            if a[i]==&apos;/&apos;:</span><br><span class="line">                b+=&quot;%2F&quot;</span><br><span class="line">            elif a[i]==&apos;&quot;&apos;:</span><br><span class="line">                b+=&quot;%22&quot;</span><br><span class="line">            elif a[i]==&apos;*&apos;:</span><br><span class="line">                b+=&quot;%2A&quot;</span><br><span class="line">            elif a[i]==&apos;=&apos;:</span><br><span class="line">                b+=&quot;%3D&quot;</span><br><span class="line">            elif a[i]==&apos;+&apos;:</span><br><span class="line">                b+=&quot;%20&quot;</span><br><span class="line">            elif a[i]==&apos;&amp;&apos;:</span><br><span class="line">                b+=&quot;%26&quot;</span><br><span class="line">            elif a[i]==&apos;%&apos;:</span><br><span class="line">                b+=&quot;%25&quot;</span><br><span class="line">            else:</span><br><span class="line">                b+=a[i]</span><br><span class="line">        except:</span><br><span class="line">            continue</span><br><span class="line">    return b</span><br><span class="line"></span><br><span class="line">def Ali_Sign(method,a):</span><br><span class="line">    Key=sorted(a.items(), key=lambda d: d[0])</span><br><span class="line">    Key2=urllib.parse.urlencode(Key)</span><br><span class="line">    Key2=Url(Key2)</span><br><span class="line">    Sign=method+&quot;&amp;%2F&amp;&quot;+Key2</span><br><span class="line">    hm=hmac.new(bytearray(AliSecret+&quot;&amp;&quot;,encoding=&quot;utf8&quot;),Sign.encode(&quot;utf8&quot;),digestmod=hashlib.sha1).digest()</span><br><span class="line">    b64hm=base64.b64encode(hm)</span><br><span class="line">    return str(b64hm,encoding=&quot;utf8&quot;)</span><br><span class="line"></span><br><span class="line">def Ali_Public():</span><br><span class="line">    Key=&#123;</span><br><span class="line">            &quot;Format&quot;:&quot;JSON&quot;,&quot;Version&quot;:&quot;2015-01-09&quot;,&quot;AccessKeyId&quot;:AliKey,&quot;SignatureMethod&quot;:&quot;HMAC-SHA1&quot;,</span><br><span class="line">            &quot;Timestamp&quot;:datetime.datetime.strftime(datetime.datetime.utcnow(),&quot;%Y-%m-%dT%H:%M:%SZ&quot;),&quot;SignatureVersion&quot;:&quot;1.0&quot;,</span><br><span class="line">            &quot;SignatureNonce&quot;:str(random.randint(0,1000000000))+&quot;-&quot;+str(random.randint(0,100000000))&#125;</span><br><span class="line">    return Key</span><br><span class="line"></span><br><span class="line">def Ali_Domain_GetRecord(Domainname,RRname):</span><br><span class="line">    Key=Ali_Public()</span><br><span class="line">    Key[&quot;Action&quot;]=&quot;DescribeDomainRecords&quot;</span><br><span class="line">    Key[&quot;DomainName&quot;]=Domainname</span><br><span class="line">    Sign=Ali_Sign(&quot;GET&quot;,Key)</span><br><span class="line">    Key[&quot;Signature&quot;]=Sign</span><br><span class="line">    req=requests.get(&quot;http://alidns.aliyuncs.com&quot;,params=Key)</span><br><span class="line">    print(req.content)</span><br><span class="line">    for i in json.loads(req.text)[&quot;DomainRecords&quot;][&quot;Record&quot;]:</span><br><span class="line">        if i[&quot;RR&quot;]==RRname:</span><br><span class="line">            return i</span><br><span class="line">            </span><br></pre></td></tr></table></figure></p>
+<p>Url()用来二次处理编码,urllib处理后还是有些编码不符合要求.<br>Ali_Sign()对参数进行签名,返回签名值<br>Ali_Public()获取公共参数.我这里的唯一随机数采用两个随机数和一个”-“连接,增加重复难度.<br>Ali_Domain_GetRecord()获取指定二级域名解析记录的详细记录.</p>
+<p>PS:代码比较挫而且没有对大部分异常或者错误进行处理.大家可以拿回去改改.</p>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="post-Tessert-OCR-Linux下的编译以及训练" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
