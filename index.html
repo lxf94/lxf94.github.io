@@ -79,6 +79,50 @@
 
 
     
+      <article id="post-Tesseract-OCR-Linux下的编译以及训练" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/13/Tesseract-OCR-Linux下的编译以及训练/">Tesseract-OCR Linux下的训练</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/06/13/Tesseract-OCR-Linux下的编译以及训练/" class="article-date">
+  <time datetime="2016-06-13T13:44:34.000Z" itemprop="datePublished">2016-06-13</time>
+</a>
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="工具及源码下载地址"><a href="#工具及源码下载地址" class="headerlink" title="工具及源码下载地址:"></a>工具及源码下载地址:</h2><p>Tessert-OCR :<a href="https://github.com/tesseract-ocr/tesseract" target="_blank" rel="external">https://github.com/tesseract-ocr/tesseract</a><br>编译教程:<a href="https://github.com/tesseract-ocr/tesseract/wiki/Compiling" target="_blank" rel="external">https://github.com/tesseract-ocr/tesseract/wiki/Compiling</a><br>Leptonica:<a href="http://www.leptonica.org/download.html" target="_blank" rel="external">http://www.leptonica.org/download.html</a><br>jTessBoxEditor:<a href="http://sourceforge.net/projects/vietocr/files/jTessBoxEditor/" target="_blank" rel="external">http://sourceforge.net/projects/vietocr/files/jTessBoxEditor/</a><br>注:编译完tesseract后一定要编译training哦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make training</span><br><span class="line">sudo make install training</span><br></pre></td></tr></table></figure></p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><h4 id="1-获取训练样本"><a href="#1-获取训练样本" class="headerlink" title="1.获取训练样本"></a>1.获取训练样本</h4><p>就是一堆你要识别的验证码图片,越多越好.越多后面工作量越大.</p>
+<h4 id="2-合并样本"><a href="#2-合并样本" class="headerlink" title="2.合并样本"></a>2.合并样本</h4><p>运行jTessBoxEditor工具，在点击菜单栏中Tools—&gt;Merge TIFF。在弹出的对话框中选择样本图像（按Shift选择多张），合并成一个tif文件<br>注:文件名格式<br>[lang].[fontname].exp[num].tif<br><span style="color:#ff0000"><strong>其中lang为语言名称，fontname为字体名称，num为序号，可以随便定义。</strong></span><br>我们这使用 num.font.exp0</p>
+<h4 id="3-生成Box-File文件"><a href="#3-生成Box-File文件" class="headerlink" title="3.生成Box File文件"></a>3.生成Box File文件</h4><p>tesseract.exe num.font.exp0.tif num.font.exp0 batch.nochop makebox<br>注意替换为自己的文件名</p>
+<h4 id="4-文字校正"><a href="#4-文字校正" class="headerlink" title="4.文字校正"></a>4.文字校正</h4><p>1.把上一步生成的num.font.exp0.box和原本的num.font.exp0.tif放在同一个文件夹里.一般都是在一个文件夹里的<br>2.运行jTessBoxEditor.选择box editor 然后点击open 然后选中num.font.exp0.tif,把所有错误的识别修改为正确的识别,如果有识别不出来的,需要踢出训练库从第二步重新开始<br>3.保存文件</p>
+<h4 id="5-定义字体特征文件"><a href="#5-定义字体特征文件" class="headerlink" title="5.定义字体特征文件"></a>5.定义字体特征文件</h4><p>Tesseract-OCR3.01以上的版本在训练之前需要创建一个名称为font_properties的字体特征文件。<br>font_properties不含有BOM头，文件内容格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;fontname&gt; &lt;italic&gt; &lt;bold&gt; &lt;fixed&gt; &lt;serif&gt; &lt;fraktur&gt;</span><br></pre></td></tr></table></figure><br>其中fontname为字体名称，必须与[lang].[fontname].exp[num].box中的名称保持一致。italic,bold,fixed,serif,fraktur的取值为1或0，表示字体是否具有这些属性。<br>这里在样本图片所在目录下创建一个名称为font_properties的文件，用记事本打开，输入以下下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">font 0 0 0 0 0</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-生成语言文件"><a href="#6-生成语言文件" class="headerlink" title="6.生成语言文件"></a>6.生成语言文件</h4><p>windows 脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">rem 执行改批处理前先要目录下创建font_properties文件</span><br><span class="line"></span><br><span class="line">echo Run Tesseract for Training..</span><br><span class="line">tesseract.exe num.font.exp0.tif num.font.exp0 nobatch box.train</span><br><span class="line"></span><br><span class="line">echo Compute the Character Set..</span><br><span class="line">unicharset_extractor.exe num.font.exp0.box</span><br><span class="line">mftraining -F font_properties -U unicharset -O num.unicharset num.font.exp0.tr</span><br><span class="line"></span><br><span class="line">echo Clustering..</span><br><span class="line">cntraining.exe num.font.exp0.tr</span><br><span class="line"></span><br><span class="line">echo Rename Files..</span><br><span class="line">rename normproto num.normproto</span><br><span class="line">rename inttemp num.inttemp</span><br><span class="line">rename pffmtable num.pffmtable</span><br><span class="line">rename shapetable num.shapetable</span><br><span class="line"></span><br><span class="line">echo Create Tessdata..</span><br><span class="line">combine_tessdata.exe num.</span><br></pre></td></tr></table></figure></p>
+<p>Linux 命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tesseract num.font.exp0.tif num.font.exp0 nobatch box.train</span><br><span class="line">unicharset_extractor num.font.exp0.box</span><br><span class="line">mftraining -F font_properties -U unicharset -O num.unicharset num.font.exp0.tr </span><br><span class="line">cntraining num.font.exp0.tr</span><br><span class="line">mv normproto num.normproto</span><br><span class="line">mv inttemp num.inttemp</span><br><span class="line">mv pffmtable num.pffmtable</span><br><span class="line">mv shapetable num.shapetable</span><br><span class="line">combine_tessdata num.</span><br></pre></td></tr></table></figure><br>注:unicharset_extractor,cntraining,combine_tessdata在之前编译的tessert目录下的training目录下<br>所以一定要编译training 不要只编译tesseract哦</p>
+<p><span style="color:#ff0000"><strong>执行命令后需确认打印结果中的Offset 1、3、4、5、13这些项不是-1。</strong></span>这样，一个新的语言文件就生成了。<br>num.traineddata便是最终生成的语言文件，将生成的num.traineddata拷贝到tessdata目录下。可以用它来进行字符识别了。</p>
+<p>参考文章:<br><a href="http://blog.csdn.net/yasi_xi/article/details/8763385" target="_blank" rel="external">http://blog.csdn.net/yasi_xi/article/details/8763385</a></p>
+
+      
+    </div>
+    
+    
+  </div>
+  
+</article>
+
+
+    
       <article id="post-Tessert-OCR-Linux下的编译以及训练" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -87,7 +131,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/13/Tessert-OCR-Linux下的编译以及训练/">Tessert-OCR Linux下的训练</a>
+      <a class="article-title" href="/2016/06/13/Tessert-OCR-Linux下的编译以及训练/">Tesseract-OCR Linux下的训练</a>
     </h1>
   
 
@@ -102,7 +146,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="工具及源码下载地址"><a href="#工具及源码下载地址" class="headerlink" title="工具及源码下载地址:"></a>工具及源码下载地址:</h2><p>Tessert-OCR :<a href="https://github.com/tesseract-ocr/tesseract" target="_blank" rel="external">https://github.com/tesseract-ocr/tesseract</a><br>编译教程:<a href="https://github.com/tesseract-ocr/tesseract/wiki/Compiling" target="_blank" rel="external">https://github.com/tesseract-ocr/tesseract/wiki/Compiling</a><br>Leptonica:<a href="http://www.leptonica.org/download.html" target="_blank" rel="external">http://www.leptonica.org/download.html</a><br>jTessBoxEditor:<a href="http://sourceforge.net/projects/vietocr/files/jTessBoxEditor/" target="_blank" rel="external">http://sourceforge.net/projects/vietocr/files/jTessBoxEditor/</a><br>注:编译完tesseract后一定要编译training哦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make training</span><br><span class="line">sudo make install training</span><br></pre></td></tr></table></figure></p>
+        <h2 id="工具及源码下载地址"><a href="#工具及源码下载地址" class="headerlink" title="工具及源码下载地址:"></a>工具及源码下载地址:</h2><p>Tessert-OCR :<a href="https://github.com/tesseract-ocr/tesseract" target="_blank" rel="external">https://github.com/tesseract-ocr/tesseract</a><br>编译教程:<a href="https://github.com/tesseract-ocr/tesseract/wiki/Compiling" target="_blank" rel="external">https://github.com/tesseract-ocr/tesseract/wiki/Compiling</a><br>Leptonica:<a href="http://www.leptonica.org/download.html" target="_blank" rel="external">http://www.leptonica.org/download.html</a><br>jTessBoxEditor:<a href="http://sourceforge.net/projects/vietocr/files/jTessBoxEditor/" target="_blank" rel="external">http://sourceforge.net/projects/vietocr/files/jTessBoxEditor/</a><br>注:编译完tesseract后一定要编译training哦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make training</span><br><span class="line">sudo make install training</span><br></pre></td></tr></table></figure><br>如果遇到 <span style="color:#ff0000"><strong>configure: error: leptonica library with pdf support (&gt;= 1.71) is missing </strong></span><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export LIBLEPT_HEADERSDIR=/usr/local/include/leptonica/</span><br><span class="line">./configure --with-extra-libraries=/usr/local/lib</span><br></pre></td></tr></table></figure></p>
 <h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><h4 id="1-获取训练样本"><a href="#1-获取训练样本" class="headerlink" title="1.获取训练样本"></a>1.获取训练样本</h4><p>就是一堆你要识别的验证码图片,越多越好.越多后面工作量越大.</p>
 <h4 id="2-合并样本"><a href="#2-合并样本" class="headerlink" title="2.合并样本"></a>2.合并样本</h4><p>运行jTessBoxEditor工具，在点击菜单栏中Tools—&gt;Merge TIFF。在弹出的对话框中选择样本图像（按Shift选择多张），合并成一个tif文件<br>注:文件名格式<br>[lang].[fontname].exp[num].tif<br><span style="color:#ff0000"><strong>其中lang为语言名称，fontname为字体名称，num为序号，可以随便定义。</strong></span><br>我们这使用 num.font.exp0</p>
 <h4 id="3-生成Box-File文件"><a href="#3-生成Box-File文件" class="headerlink" title="3.生成Box File文件"></a>3.生成Box File文件</h4><p>tesseract.exe num.font.exp0.tif num.font.exp0 batch.nochop makebox<br>注意替换为自己的文件名</p>
